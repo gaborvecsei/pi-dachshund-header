@@ -1,6 +1,6 @@
 # Dachshund Header for pi
 
-A tail-wagging dachshund startup header for pi. Just so you'll start your day with a smile.
+A tail-wagging dachshund startup header for pi. Or bring your own pet!
 
 TODO image here
 
