@@ -1,0 +1,54 @@
+# Dachshund. The original pi-dachshund-header dog.
+#
+# [frame] holds the shape, [colors] maps each cell to a palette key.
+# Palette values: r;g;b, #hex, or a pi theme color token (text, dim, muted, accent, ...).
+
+[palette]
+b = 139;90;60   # body
+e = 82;46;32    # ears
+s = text        # spots and eye follow the theme
+n = dim         # nose
+
+[animation]
+interval = 140
+loops = 3
+sequence = 0 1 0 2
+
+[frame tail neutral]
+             ▄███▄
+ ▄           █ ▀██▄▄
+ ▀█████████████████▀
+  ██████████████▀
+   ▀█       ▀█
+[colors]
+             bbbbb
+ b           e sbbbn
+ bbbsbbbbbbbbeebbbbb
+  bbbbbbbsbbbeebb
+   bb       bb
+
+[frame tail up]
+▄            ▄███▄
+▀▄           █ ▀██▄▄
+ ▀█████████████████▀
+  ██████████████▀
+   ▀█       ▀█
+[colors]
+b            bbbbb
+bb           e sbbbn
+ bbbsbbbbbbbbeebbbbb
+  bbbbbbbsbbbeebb
+   bb       bb
+
+[frame tail down]
+             ▄███▄
+             █ ▀██▄▄
+▄▀█████████████████▀
+  ██████████████▀
+   ▀█       ▀█
+[colors]
+             bbbbb
+             e sbbbn
+bbbbsbbbbbbbbeebbbbb
+  bbbbbbbsbbbeebb
+   bb       bb

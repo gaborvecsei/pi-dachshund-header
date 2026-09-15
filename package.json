@@ -1,7 +1,7 @@
 {
 	"name": "pi-dachshund-header",
 	"version": "0.1.0",
-	"description": "A tail-wagging dachshund startup header for the pi coding agent",
+	"description": "A tail-wagging dachshund startup header for the pi coding agent. Draw your own pet in plain text.",
 	"type": "module",
 	"license": "MIT",
 	"author": "Gabor Vecsei",
@@ -9,7 +9,9 @@
 		"pi-package",
 		"pi-extension",
 		"header",
-		"dachshund"
+		"dachshund",
+		"pet",
+		"ascii-art"
 	],
 	"repository": {
 		"type": "git",
@@ -17,6 +19,7 @@
 	},
 	"files": [
 		"extensions",
+		"pets",
 		"README.md",
 		"LICENSE"
 	],

@@ -20,6 +20,10 @@ pi install git:github.com/gaborvecsei/pi-dachshund-header
 
 To go back to the built-in header, `pi remove npm:pi-dachshund-header`.
 
+## Bring your own pet
+
+Pets are plain text files you can draw yourself. See [pets/README.md](pets/README.md) for the format and where to put them.
+
 ## Notes
 
-- The dog is drawn with 24-bit colors, so it looks best in a truecolor terminal.
+- Pets are drawn with 24-bit colors, so they look best in a truecolor terminal.

@@ -1,33 +1,16 @@
-import { VERSION, type ExtensionAPI, type Theme } from "@earendil-works/pi-coding-agent";
+import { VERSION, getAgentDir, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { homedir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadPets, renderFrame, type Pet } from "./pet.ts";
 
-const WAG_FRAMES = [1, 0, 1, 2] as const;
-const WAG_INTERVAL_MS = 140;
-const WAG_TICKS = WAG_FRAMES.length * 3;
+const BUNDLED_PETS_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "pets");
 
-function getDachshund(theme: Theme, tailPosition: number): string[] {
-	const rgb = (text: string, color: string) => `\x1b[38;2;${color}m${text}\x1b[39m`;
-	const body = (text: string) => rgb(text, "139;90;60");
-	const head = body;
-	const ear = (text: string) => rgb(text, "82;46;32");
-	const spot = (text: string) => theme.fg("text", text);
-	const eye = (text: string) => theme.fg("text", text);
-	const nose = (text: string) => theme.fg("dim", text);
-	const tails = [
-		[`${body("▄")}            `, `${body("▀▄")}           `, ` ${body("▀")}`],
-		["             ", ` ${body("▄")}           `, ` ${body("▀")}`],
-		["             ", "             ", body("▄▀")],
-	];
-	const tail = tails[tailPosition] ?? tails[1];
-
-	return [
-		`${tail[0]}${head("▄███▄")}`,
-		`${tail[1]}${ear("█")} ${eye("▀")}${head("██▄")}${nose("▄")}`,
-		`${tail[2]}${body("██")}${spot("█")}${body("████████")}${ear("██")}${head("████▀")}`,
-		`  ${body("███████")}${spot("█")}${body("███")}${ear("██")}${head("█▀")}`,
-		`   ${body("▀█")}       ${head("▀█")}`,
-	];
+/** Project pets win over user pets, user pets win over bundled ones. One random pet from the first non-empty folder. */
+function pickPet(cwd: string): Pet | undefined {
+	const pets = loadPets([join(cwd, ".pi", "pets"), join(getAgentDir(), "pets"), BUNDLED_PETS_DIR]);
+	return pets[Math.floor(Math.random() * pets.length)];
 }
 
 function displayPath(path: string): string {
@@ -55,6 +38,9 @@ export default function dachshundHeader(pi: ExtensionAPI) {
 	pi.on("session_start", async (event, ctx) => {
 		if (ctx.mode !== "tui") return;
 
+		const pet = pickPet(ctx.cwd);
+		if (!pet) return;
+
 		const gitSummary = await getGitSummary(pi, ctx.cwd);
 		const messageCount = ctx.sessionManager.getEntries().filter(
 			(entry) => entry.type === "message" && (entry.message.role === "user" || entry.message.role === "assistant"),
@@ -64,21 +50,22 @@ export default function dachshundHeader(pi: ExtensionAPI) {
 			: `${event.reason === "fork" ? "forked" : event.reason === "reload" ? "reloaded" : "resumed"} · ${messageCount} messages`;
 
 		ctx.ui.setHeader((tui, theme) => {
-			let frame = 0;
+			let step = 0;
 			let ticks = 0;
+			const totalTicks = pet.sequence.length * pet.loops;
 			const timer = setInterval(() => {
-				frame = (frame + 1) % WAG_FRAMES.length;
-				if (++ticks >= WAG_TICKS) {
+				step = (step + 1) % pet.sequence.length;
+				if (++ticks >= totalTicks) {
 					clearInterval(timer);
-					frame = 0;
+					step = 0;
 				}
 				tui.requestRender();
-			}, WAG_INTERVAL_MS);
+			}, pet.interval);
 			timer.unref();
 
 			return {
 				render(width: number): string[] {
-					const logo = getDachshund(theme, WAG_FRAMES[frame]);
+					const logo = renderFrame(pet, pet.sequence[step], theme);
 					const logoWidth = Math.max(...logo.map(visibleWidth));
 					const model = ctx.model?.name || ctx.model?.id || "no model";
 					const details = [
