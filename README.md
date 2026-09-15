@@ -2,7 +2,7 @@
 
 A tail-wagging dachshund startup header for pi. Or bring your own pet!
 
-TODO image here
+![dachshund header demo](assets/demo.gif)
 
 ## Install
 
