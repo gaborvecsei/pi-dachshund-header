@@ -26,7 +26,8 @@
 	"pi": {
 		"extensions": [
 			"./extensions/dachshund-header.ts"
-		]
+		],
+		"image": "https://raw.githubusercontent.com/gaborvecsei/pi-dachshund-header/main/assets/demo.gif"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit",
