@@ -2,11 +2,11 @@
 
 Pets are plain text files. Drop a `*.pet` file into one of these folders and restart pi:
 
-| Folder | Scope |
-|---|---|
-| `<project>/.pi/pets/` | this project only |
-| `~/.pi/agent/pets/` | all your sessions |
-| this folder | bundled pets (the dachshund) |
+| Folder                | Scope                        |
+| --------------------- | ---------------------------- |
+| `<project>/.pi/pets/` | this project only            |
+| `~/.pi/agent/pets/`   | all your sessions            |
+| this folder           | bundled pets (the dachshund) |
 
 The first folder that contains any pets wins. If it holds several, one is picked at random each session.
 
@@ -14,23 +14,29 @@ Start from [`dachshund.pet`](dachshund.pet):
 
 ```ini
 [palette]
-b = 139;90;60   # r;g;b
-e = #522e20     # or hex
-s = text        # or a pi theme color: text, dim, muted, accent, ...
+b = 139;90;60   # body
+e = 82;46;32    # ears
+s = text        # spots and eye follow the theme
+n = dim         # nose
 
 [animation]
-interval = 140      # ms per frame
-loops = 3           # sequence plays this many times, then rests on frame 0
-sequence = 0 1 0 2  # frame indices; default is all frames in order
+interval = 140
+loops = 3
+sequence = 0 1 0 2
 
-[frame tail up]     # text after the section name is a free label
-▄            ▄███▄
-▀▄           █ ▀██▄▄
+[frame tail neutral]
+             ▄███▄
+ ▄           █ ▀██▄▄
  ▀█████████████████▀
+  ██████████████▀
+   ▀█       ▀█
 [colors]
-b            bbbbb
-bb           e sbbbn
+             bbbbb
+ b           e sbbbn
  bbbsbbbbbbbbeebbbbb
+  bbbbbbbsbbbeebb
+   bb       bb
+
 ```
 
 Rules:
