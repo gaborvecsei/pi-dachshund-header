@@ -2,7 +2,10 @@
 
 A tail-wagging dachshund startup header for pi. Or bring your own pet!
 
-![dachshund header demo](assets/demo.gif)
+<p>
+  <img src="assets/demo.gif" alt="dachshund header demo" height="300">
+  <img src="assets/joey.jpg" alt="the real one" height="300">
+</p>
 
 ## Install
 
